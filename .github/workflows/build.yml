@@ -37,11 +37,12 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - uses: android-actions/setup-android@v3
       - name: Unpack
         run: python3 -m zipfile -e "$(ls *.zip | head -n1)" src
+      - name: Accept Android licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
       - name: Install Android platform
-        run: sdkmanager "platforms;android-36"
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" || true
       - name: Build apk
         working-directory: src/android
         run: |
